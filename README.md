@@ -14,4 +14,5 @@ It works fine for me in following settings:
 * VirtualBox under OSX (okay, some minor problems with German Umlauts)
 * support/remap of common IntelliJ shortcuts
 
-** Try it, have fun and give feedback by supplying merge-requestes :) **
+
+**Try it, have fun and give feedback by supplying merge-requestes :)**
