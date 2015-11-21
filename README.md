@@ -1,4 +1,4 @@
-# AutoHotkey
+# AutoHotkey Mac Keyboard Layout U.S.
 Keyboard Layouts and stuff for advanced (mac) users
 
 License: GNU GPL v2
