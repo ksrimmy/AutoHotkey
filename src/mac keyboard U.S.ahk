@@ -8,6 +8,10 @@
 #UseHook
 #InstallKeybdHook
 
+;correct keys (left of 'z') for MS English (U.S.) layout
+SC056::`
++SC056::~
+  
 ;Console - ctrl+v : past
 ;if WinActive("ahk_class ConsoleWindowClass")
 ;  ^v::SendInput {Raw}%clipboard% return
@@ -42,20 +46,6 @@ else
   Send {LCtrl Down}{f}{LCtrl Up}
 return
 
-
-; Used to map LWin+l to Ctrl+l and when Shift is down, send "|" char instead
-LWin & l::
-GetKeyState, ShiftState, Shift, P
-if ShiftState = D
-{
-  Send |
-}
-else
-{
-  Send {LCtrl Down}{l}{LCtrl Up}
-}
-return
-
 LWin & m::Send {LCtrl Down}{m}{LCtrl Up}
 
 ;If Desktop or Explorer active, Alt+Shift+n create a new folder and Alt+N open an new window
@@ -71,13 +61,12 @@ else
   Send {LCtrl Down}{n}{LCtrl Up}
 return
 
-LAlt & s::Send {a}
+LAlt & s::Send {ß}
 
 LAlt & u::
   input, command, L1 ; L3 to limit the input to 2 keys
-  GetKeyState, ShiftState, Shift, P
-  if (ShiftState = "D") { 
-    if (command = "ak_class Progman") or {
+  if (GetKeyState("Shift", "P")) { 
+    if (command = "a") {
       Send Ä
     } else if (command = "o") {
       Send Ö
@@ -101,6 +90,7 @@ LWin & q::Send {LCtrl Down}{q}{LCtrl Up}
 LWin & r::Send {LCtrl Down}{r}{LCtrl Up}
 LWin & s::Send {LCtrl Down}{s}{LCtrl Up}
 LWin & t::Send {LCtrl Down}{t}{LCtrl Up} 
+
 ;LWin & u::Send {LCtrl Down}{u}{LCtrl Up}
 ;LWin & v::Send {LCtrl Down}{v}{LCtrl Up}
 LWin & v::
@@ -127,7 +117,25 @@ LWin & y::
   }
 return
 
-LWin & z::Send {LCtrl Down}{z}{LCtrl Up}
+LWin & z::
+GetKeyState, ShiftState, Shift, P
+  if (ShiftState == "D") {
+    Send {LCtrl Down}+{z}{LCtrl Up}
+  } else {
+    Send {LCtrl Down}{z}{LCtrl Up}
+  }
+return
+
+
+LWin & 7::
+  GetKeyState, ShiftState, Shift, P
+  if (ShiftState == "D") {
+    Send {LAlt Down}{&}{LAlt Up}
+  } else {
+    Send {LAlt Down}{7}{LAlt Up}
+  }
+return
+
 ; Explorer -> delete file
 LWin & BS::Send {Del}
 
@@ -158,3 +166,48 @@ RWin::return
 ; REPLACES ALT-TAB APPLICATION SWITCHING WITH OSX CMD-TAB
 LWin & Tab::AltTab
 !Tab::return
+
+; TODO HOW TO SEND LOCK SCREEN!?!
+; ctrl alt del 
+^#Del::
+  Send {LCtrl down}{LAlt down}{Del}{LAlt up}{LCtrl up}
+return
+
+; Explorer: Jump to parent dir
+LWin & Up::
+ GetKeyState, ShiftState, Shift, P
+  if (ShiftState == "D") {
+    Send {LAlt down}+{Up}{LAlt up}
+  } else {
+    Send {LAlt down}{Up}{LAlt up}
+  }
+return
+
+LWin & Down::
+ GetKeyState, ShiftState, Shift, P
+  if (ShiftState == "D") {
+    Send {LAlt down}+{Down}{LAlt up}
+  } else {
+    Send {LAlt down}{Down}{LAlt up}
+  }
+return
+
+
+; ************
+;   IntelliJ
+; ************
+; self defined keymap for IntelliJ 'VCS Operations Popup'
+LWin & \::Send {LAlt Down}{\}{LAlt Up} 
+^#F7::Send {LCtrl down}{LAlt down}{F7}{LAlt up}{LCtrl up}
+
+; IJ Organize Imports
+LCtrl & o::
+  if (GetKeyState("LWin", "P")) {
+    Send {LCtrl Down}{LAlt Down}{o}{LAlt Up}{LCtrl Up}
+  } else {
+    Send {LCtrl Down}{o}{LCtrl Up}
+  } 
+return
+
+; import methods
+LWin & Enter::Send {LAlt down}{Enter}{LAlt up}
