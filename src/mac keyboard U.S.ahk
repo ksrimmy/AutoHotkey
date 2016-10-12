@@ -8,10 +8,9 @@
 #UseHook
 #InstallKeybdHook
 
-;correct keys (left of 'z') for MS English (U.S.) layout
 SC056::`
 +SC056::~
-  
+
 ;Console - ctrl+v : past
 ;if WinActive("ahk_class ConsoleWindowClass")
 ;  ^v::SendInput {Raw}%clipboard% return
@@ -42,7 +41,7 @@ LWin & f::
 GetKeyState, ShiftState, Shift, P
 if (ShiftState == "D")
   Send {LCtrl Down}+{f}{LCtrl Up}
-else 
+else
   Send {LCtrl Down}{f}{LCtrl Up}
 return
 
@@ -52,12 +51,12 @@ LWin & m::Send {LCtrl Down}{m}{LCtrl Up}
 LWin & n::
 GetKeyState, ShiftState, Shift, P
 if (ShiftState == "D") and (WinActive("ahk_class Progman") or WinActive("ahk_class ExploreWClass") or WinActive("ahk_class CabinetWClass"))
-  Send !fn{enter} ; Folder is in first so send enter directly else other type of document will be selected
+  Send !fn{enter} ; Folder is in first so Send enter directly else other type of document will be selected
 else if (ShiftState == "U" and (WinActive("ahk_class Progman") or WinActive("ahk_class ExploreWClass") or WinActive("ahk_class CabinetWClass")))
   Run explorer
 else if (ShiftState == "D")
   Send {LCtrl Down}+{n}{LCtrl Up}
-else 
+else
   Send {LCtrl Down}{n}{LCtrl Up}
 return
 
@@ -65,14 +64,14 @@ LAlt & s::Send {ß}
 
 LAlt & u::
   input, command, L1 ; L3 to limit the input to 2 keys
-  if (GetKeyState("Shift", "P")) { 
+  if (GetKeyState("Shift", "P")) {
     if (command = "a") {
       Send Ä
     } else if (command = "o") {
       Send Ö
     } else if (command = "u") {
       Send Ü
-    } 
+    }
   } else {
     if (command = "a") {
       Send ä
@@ -86,17 +85,25 @@ return
 
 LWin & o::Send {LCtrl Down}{o}{LCtrl Up}
 LWin & p::Send {LCtrl Down}{p}{LCtrl Up}
-LWin & q::Send {LCtrl Down}{q}{LCtrl Up}  
-LWin & r::Send {LCtrl Down}{r}{LCtrl Up}
+LWin & q::Send {LCtrl Down}{q}{LCtrl Up}
+;LWin & r::Send {LCtrl Down}{r}{LCtrl Up};
+LWin & r::
+GetKeyState, ShiftState, Shift, P
+if (ShiftState == "D")
+  Send {LCtrl Down}+{r}{LCtrl Up}
+else
+  Send {LCtrl Down}{r}{LCtrl Up}
+return
+
 LWin & s::Send {LCtrl Down}{s}{LCtrl Up}
-LWin & t::Send {LCtrl Down}{t}{LCtrl Up} 
+LWin & t::Send {LCtrl Down}{t}{LCtrl Up}
 
 ;LWin & u::Send {LCtrl Down}{u}{LCtrl Up}
 ;LWin & v::Send {LCtrl Down}{v}{LCtrl Up}
 LWin & v::
   if (WinActive("ahk_class ConsoleWindowClass")) {
-    SendInput {Raw}%clipboard% 
-  } else {  
+    SendInput {Raw}%clipboard%
+  } else {
     GetKeyState, ShiftState, Shift, P
     if (ShiftState == "D") {
       Send {LCtrl Down}+{v}{LCtrl Up}
@@ -168,7 +175,7 @@ LWin & Tab::AltTab
 !Tab::return
 
 ; TODO HOW TO SEND LOCK SCREEN!?!
-; ctrl alt del 
+; ctrl alt del
 ^#Del::
   Send {LCtrl down}{LAlt down}{Del}{LAlt up}{LCtrl up}
 return
@@ -197,8 +204,9 @@ return
 ;   IntelliJ
 ; ************
 ; self defined keymap for IntelliJ 'VCS Operations Popup'
-LWin & \::Send {LAlt Down}{\}{LAlt Up} 
+LWin & \::Send {LAlt Down}{\}{LAlt Up}
 ^#F7::Send {LCtrl down}{LAlt down}{F7}{LAlt up}{LCtrl up}
+LWin & F8::Send {LAlt Down}{F8}{LAlt Up}
 
 ; IJ Organize Imports
 LCtrl & o::
@@ -206,8 +214,19 @@ LCtrl & o::
     Send {LCtrl Down}{LAlt Down}{o}{LAlt Up}{LCtrl Up}
   } else {
     Send {LCtrl Down}{o}{LCtrl Up}
-  } 
+  }
 return
 
 ; import methods
 LWin & Enter::Send {LAlt down}{Enter}{LAlt up}
+
+; private snagit shortcut
+LWin & 4::
+ GetKeyState, ShiftState, Shift, P
+  if (ShiftState == "D") {
+    Send {LAlt down}+{4}{LAlt up}
+  } else {
+    Send {LAlt down}{4}{LAlt up}
+  }
+return
+
